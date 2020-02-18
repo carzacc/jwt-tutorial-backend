@@ -1,6 +1,8 @@
 var sqlite = require('sqlite3');
+
 var db = new sqlite.Database("users.sqlite3");
-db.all(`CREATE TABLE users(
+
+db.run(`CREATE TABLE users(
   id INTEGER PRIMARY KEY,
   username TEXT NOT NULL,
   password TEXT NOT NULL
