@@ -3,7 +3,7 @@ var jwt = require('jsonwebtoken');
 var sqlite = require('sqlite3');
 var crypto = require('crypto');
 
-const KEY = "m yincredibl y(!!1!11!)<'SECRET>)Key'!";
+const KEY = "kissing-dressage-contrite-lied-yanine-electrum-unendingsukiyaki-pays44";
 
 var db = new sqlite.Database("users.sqlite3");
 
@@ -37,7 +37,7 @@ app.post('/login', express.urlencoded(), function(req, res) {
         username: req.body.username,
       };
 
-      var token = jwt.sign(payload, KEY, {algorithm: 'HS256', expiresIn: "15d"});
+      var token = jwt.sign(payload, KEY, {algorithm: 'HS256', expiresIn: 30}); //30  (number) means seconds, or string "15d"
       console.log("Success");
       res.send(token);
     } else {
@@ -50,12 +50,20 @@ app.post('/login', express.urlencoded(), function(req, res) {
 
 app.get('/data', function(req, res) {
   var str = req.get('Authorization');
+  var textToSend = "";
   try {
     jwt.verify(str, KEY, {algorithm: 'HS256'});
-    res.send("Very Secret Data");
+    setTimeout(function () {
+      res.send("Very Secret Data");
+    }, 3000);
   } catch {
-    res.status(401);
-    res.send("Bad Token");
+    if (jwt) {
+      console.log("Bad Token")
+      res.send("Bad Token");
+    } else {
+      res.status(401);
+      res.send("No JWT");
+    }
   }
 
 });
